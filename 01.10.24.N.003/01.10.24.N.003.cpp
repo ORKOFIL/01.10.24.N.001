@@ -4,8 +4,15 @@
 #include <string>
 #include <array>
 #include <algorithm>
+#include <cstdlib>
 
 using namespace std;
+
+int getRandomNumber(int min, int max)
+{
+	static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
+	return static_cast<int>(rand() * fraction * (max - min + 1) + min);
+}
 
 enum Cards {
 	two,
@@ -75,7 +82,21 @@ void printDeck(const array<Card, 52>& deck) {
 
 }
 
+void swapCard(int a, int b, array<Card, 52> &deck) {
+	swap(deck[a].card, deck[b].card);
+	swap(deck[a].suit, deck[b].suit);
+}
+
+void shuffleDeck(array<Card, 52> &deck) {
+	for (int i = 0; i < 51; i++) {
+		int r = getRandomNumber(0, 51);
+		swapCard(r, i, deck);
+	}
+}
+
 int main() {
+	srand(static_cast<unsigned int>(time(0)));
+	rand();
 	array<Card, 52> deck;
 
 	int card = 0;
@@ -87,7 +108,7 @@ int main() {
 		}
 	}
 	printDeck(deck);
-
-
-
+	cout << endl;
+	shuffleDeck(deck);
+	printDeck(deck);
 }
