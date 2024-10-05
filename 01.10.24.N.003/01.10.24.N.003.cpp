@@ -82,15 +82,33 @@ void printDeck(const array<Card, 52>& deck) {
 
 }
 
-void swapCard(int a, int b, array<Card, 52> &deck) {
+void swapCard(int a, int b, array<Card, 52>& deck) {
 	swap(deck[a].card, deck[b].card);
 	swap(deck[a].suit, deck[b].suit);
 }
 
-void shuffleDeck(array<Card, 52> &deck) {
+void shuffleDeck(array<Card, 52>& deck) {
 	for (int i = 0; i < 51; i++) {
 		int r = getRandomNumber(0, 51);
 		swapCard(r, i, deck);
+	}
+}
+
+int getCardValue(const Card& card) {
+	switch (card.card) {
+	case two: return 2; break;
+	case three: return 3; break;
+	case four: return 4; break;
+	case five: return 5; break;
+	case six: return 6; break;
+	case seven: return 7; break;
+	case eight: return 8; break;
+	case nine: return 9; break;
+	case ten: return 10; break;
+	case valet: return 10; break;
+	case dama: return 10; break;
+	case korol: return 10; break;
+	case tuz: return 11; break;
 	}
 }
 
@@ -108,7 +126,18 @@ int main() {
 		}
 	}
 	printDeck(deck);
-	cout << endl;
-	shuffleDeck(deck);
-	printDeck(deck);
+	//shuffleDeck(deck);
+
+	/*int i = 0;
+	for (const auto& card : deck) {
+		cout<<getCardValue(card);
+		cout << " ";
+		i++;
+		if (i % 13 == 0)
+			cout << endl;
+	}*/
+
+	/*int index = 1;
+	cout<<"fff" << getCardValue(deck[index]);*/
+
 }
