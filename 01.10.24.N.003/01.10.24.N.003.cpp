@@ -160,8 +160,8 @@ bool playBlackJack(array<Card, 52>& deck) {
 			if (player > 21) {
 				cout << "\nplayer got: " << player << endl;
 				cout << "YOU GOT MORE THAN 21\n";
+				return false;
 				turn++;
-				pw--;
 			}
 			else if (player == 21) {
 				cout << "\nBLACKJACK";
@@ -173,12 +173,7 @@ bool playBlackJack(array<Card, 52>& deck) {
 			}
 		}
 		else if (ans == 2) {
-			if (pw == 0) {
-				pw++;
-				turn++;
-			}
-			else
-				turn++;
+			turn++;
 		}
 
 	}
@@ -188,31 +183,29 @@ bool playBlackJack(array<Card, 52>& deck) {
 	cout << " - player: " << player << endl;
 
 	do {
-		int sdealer = dealer;
+		dealer += getCardValue(deck[cardPtr]);
+		cardPtr++;
+	} while (dealer < 17);
 
-		if (sdealer < 17) {
-			dealer += getCardValue(deck[cardPtr]);
-			cardPtr++;
-		}
-		else if (sdealer == 21) {
-			cout << "\nBLACKJACK";
-			dw += 2;
-		}
-		else if (sdealer > 21) {
-			cout << "\nDEALER GOT MORE THAN 21";
-			dw--;
-		}
-		else{
-			dw++;
-		}
-
-	} while (dw == 0);
-
+	if (dealer == 21) {
+		cout << "\nBLACKJACK";
+	}
+	else if (dealer > 21) {
+		cout << "DEALER GOT TO MUCH";
+		return true;
+	}
 
 	cout << "\ndealer: " << dealer;
 	cout << " - player: " << player << endl;
 
-	if (dw < pw) {
+	if (dealer > player) {
+		return false;
+	}
+	else {
+		return true;
+	}
+
+	/*if (dw < pw) {
 		return true;
 	}
 	if (pw < dw) {
@@ -221,7 +214,7 @@ bool playBlackJack(array<Card, 52>& deck) {
 	if (dealer == player) {
 		draw++;
 		return true;
-	}
+	}*/
 }
 
 int main() {
@@ -238,17 +231,14 @@ int main() {
 		}
 	}
 	printDeck(deck);
-	bool play = playBlackJack(deck);
+	if (playBlackJack(deck)) {
+		cout << "PLAYER WON!";
+	}
+	else {
+		cout << "DEALER WON!";
+	}
 
-	if (draw > 0) {
-		cout << "\nTHERE IS DRAW!!!";
-	}
-	else if (play = true) {
-		cout << "\nPLAYER WON!!!";
-	}
-	else if (play = false) {
-		cout << "\nDEALER WON!!!";
-	}
+
 
 	/*int i = 0;
 	for (const auto& card : deck) {
