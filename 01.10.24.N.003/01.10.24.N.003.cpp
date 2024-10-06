@@ -112,6 +112,118 @@ int getCardValue(const Card& card) {
 	}
 }
 
+int draw = 0;
+
+bool playBlackJack(array<Card, 52>& deck) {
+	cout << "\nshuffled" << endl;
+	shuffleDeck(deck);
+	printDeck(deck);
+	int cardPtr = 0;
+	int dealer = 0;
+	int player = 0;
+
+	int dw = 0;
+	int pw = 0;
+
+	cout << "\ndealer got: ";
+	printCard(deck[cardPtr]);
+	cout << endl;
+	dealer += getCardValue(deck[cardPtr]);
+	cout << "dealer: " << dealer;
+	cardPtr++;
+
+	cout << "\nplayer got: ";
+	printCard(deck[cardPtr]);
+	player += getCardValue(deck[cardPtr]);
+	cardPtr++;
+	cout << " ";
+	printCard(deck[cardPtr]);
+	player += getCardValue(deck[cardPtr]);
+	cardPtr++;
+
+	cout << "\ndealer: " << dealer;
+	cout << "\nplayer: " << player;
+	int turn = 1;
+	int checker = 0;
+
+	while (turn < 2) {
+		cout << "\n\n###PLAYERS TURN###";
+		cout << "\ndealer: " << dealer;
+		cout << " - player: " << player;
+		int ans = 0;
+		cout << "\nhit-1\nstand-2\nenter number: ";
+		cin >> ans;
+
+		if (ans == 1) {
+			player += getCardValue(deck[cardPtr]);
+			cardPtr++;
+			if (player > 21) {
+				cout << "\nplayer got: " << player << endl;
+				cout << "YOU GOT MORE THAN 21\n";
+				turn++;
+				pw--;
+			}
+			else if (player == 21) {
+				cout << "\nBLACKJACK";
+				pw += 2;
+				turn++;
+			}
+			else {
+				cout << "\nplayer got: " << player << endl;
+			}
+		}
+		else if (ans == 2) {
+			if (pw == 0) {
+				pw++;
+				turn++;
+			}
+			else
+				turn++;
+		}
+
+	}
+
+	cout << "\n###DEALERS TURN###";
+	cout << "\ndealer: " << dealer;
+	cout << " - player: " << player << endl;
+
+	do {
+		int sdealer = dealer;
+
+		if (sdealer < 17) {
+			dealer += getCardValue(deck[cardPtr]);
+			cardPtr++;
+		}
+		else if (sdealer == 21) {
+			cout << "\nBLACKJACK";
+			dw += 2;
+		}
+		else if (sdealer > 21) {
+			cout << "\nDEALER GOT MORE THAN 21";
+			dw--;
+		}
+		else{
+			dw++;
+		}
+
+	} while (dw == 0);
+
+
+	cout << "\ndealer: " << dealer;
+	cout << " - player: " << player << endl;
+
+	if (dw < pw) {
+		return true;
+	}
+	if (pw < dw) {
+		return false;
+	}
+	if (dealer == player) {
+		draw++;
+		return true;
+	}
+}
+
 int main() {
 	srand(static_cast<unsigned int>(time(0)));
 	rand();
@@ -126,7 +238,17 @@ int main() {
 		}
 	}
 	printDeck(deck);
-	//shuffleDeck(deck);
+	bool play = playBlackJack(deck);
+
+	if (draw > 0) {
+		cout << "\nTHERE IS DRAW!!!";
+	}
+	else if (play = true) {
+		cout << "\nPLAYER WON!!!";
+	}
+	else if (play = false) {
+		cout << "\nDEALER WON!!!";
+	}
 
 	/*int i = 0;
 	for (const auto& card : deck) {
@@ -136,8 +258,6 @@ int main() {
 		if (i % 13 == 0)
 			cout << endl;
 	}*/
-
 	/*int index = 1;
 	cout<<"fff" << getCardValue(deck[index]);*/
-
 }
