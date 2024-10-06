@@ -128,16 +128,15 @@ bool playBlackJack(array<Card, 52>& deck) {
 	cout << endl;
 	dealer += getCardValue(deck[cardPtr]);
 	cout << "dealer: " << dealer;
-	cardPtr++;
 
 	cout << "\nplayer got: ";
 	printCard(deck[cardPtr]);
-	player += getCardValue(deck[cardPtr]);
 	cardPtr++;
+	player += getCardValue(deck[cardPtr]);
 	cout << " ";
 	printCard(deck[cardPtr]);
-	player += getCardValue(deck[cardPtr]);
 	cardPtr++;
+	player += getCardValue(deck[cardPtr]);
 
 	cout << "\ndealer: " << dealer;
 	cout << "\nplayer: " << player;
@@ -145,6 +144,9 @@ bool playBlackJack(array<Card, 52>& deck) {
 	int checker = 0;
 
 	while (turn < 2) {
+		for (int prob = 0; prob < 50; prob++) {
+			cout << endl;
+		}
 		cout << "\n\n###PLAYERS TURN###";
 		cout << "\ndealer: " << dealer;
 		cout << " - player: " << player;
@@ -153,8 +155,19 @@ bool playBlackJack(array<Card, 52>& deck) {
 		cin >> ans;
 
 		if (ans == 1) {
-			player += getCardValue(deck[cardPtr]);
+		
 			cardPtr++;
+			player += getCardValue(deck[cardPtr]);
+			if (getCardValue(deck[cardPtr]) == 11) {
+				int tuzz = 0;
+				cout << "\nplayer got: " << player << endl;
+				cout << "you want tuz to be 1 or 11?" << endl;
+				cin >> tuzz;
+				if (tuzz == 1) {
+					player - 10;
+				}
+			}
+
 			if (player > 21) {
 				cout << "\nplayer got: " << player << endl;
 				cout << "YOU GOT MORE THAN 21\n";
@@ -175,14 +188,13 @@ bool playBlackJack(array<Card, 52>& deck) {
 		}
 
 	}
-
 	cout << "\n###DEALERS TURN###";
 	cout << "\ndealer: " << dealer;
 	cout << " - player: " << player << endl;
 
 	do {
-		dealer += getCardValue(deck[cardPtr]);
 		cardPtr++;
+		dealer += getCardValue(deck[cardPtr]);
 		cout << "Dealer got: " << dealer << endl;
 	} while (dealer < 17);
 
@@ -233,18 +245,27 @@ int main() {
 			card++;
 		}
 	}
-
-	printDeck(deck);
-	if (playBlackJack(deck)) {
-		if (draw != 0) {
-			cout<<"\nDRAW";
+	int playy = 0;
+	while (playy != 2) {
+		for (int prob = 0; prob < 50; prob++) {
+			cout << endl;
 		}
-		else {
-			cout << "\nPLAYER WON!";
+		playy = 0;			
+		cout << "\nPlay-1\nExit-2\n\nEnter answer: ";
+		cin >> playy;
+		if (playy == 1) {
+			if (playBlackJack(deck)) {
+				if (draw != 0) {
+					cout << "\nDRAW";
+				}
+				else {
+					cout << "\nPLAYER WON!";
+				}
+			}
+			else {
+				cout << "\nDEALER WON!";
+			}
 		}
-	}
-	else {
-		cout << "\nDEALER WON!";
 	}
 
 
