@@ -1,5 +1,3 @@
-//14:30
-//
 #include <iostream>
 #include <string>
 #include <array>
@@ -185,13 +183,14 @@ bool playBlackJack(array<Card, 52>& deck) {
 	do {
 		dealer += getCardValue(deck[cardPtr]);
 		cardPtr++;
+		cout << "Dealer got: " << dealer << endl;
 	} while (dealer < 17);
 
 	if (dealer == 21) {
 		cout << "\nBLACKJACK";
 	}
 	else if (dealer > 21) {
-		cout << "DEALER GOT TO MUCH";
+		cout << "\nDEALER GOT TO MUCH";
 		return true;
 	}
 
@@ -200,6 +199,10 @@ bool playBlackJack(array<Card, 52>& deck) {
 
 	if (dealer > player) {
 		return false;
+	}
+	else if (dealer == player) {
+		draw++;
+		return true;
 	}
 	else {
 		return true;
@@ -230,12 +233,18 @@ int main() {
 			card++;
 		}
 	}
+
 	printDeck(deck);
 	if (playBlackJack(deck)) {
-		cout << "PLAYER WON!";
+		if (draw != 0) {
+			cout<<"\nDRAW";
+		}
+		else {
+			cout << "\nPLAYER WON!";
+		}
 	}
 	else {
-		cout << "DEALER WON!";
+		cout << "\nDEALER WON!";
 	}
 
 
